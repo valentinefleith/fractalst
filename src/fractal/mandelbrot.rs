@@ -1,6 +1,5 @@
 use crate::constants::MAX_ITERATIONS;
 use crate::context::ComplexNb;
-use sdl2::pixels::Color;
 
 pub fn compute_mandelbrot(point: ComplexNb) -> u32 {
     let mut z = ComplexNb { real: 0., imag: 0. };

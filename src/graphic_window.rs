@@ -71,8 +71,8 @@ impl GraphicWindow {
             .renderer
             .rescale_point(Point(mouse_position.x(), mouse_position.y()), &self.context);
 
-        self.context.shift_x += (mouse_pos_before_zoom.real - mouse_pos_after_zoom.real);
-        self.context.shift_y += (mouse_pos_before_zoom.imag - mouse_pos_after_zoom.imag);
+        self.context.shift_x += mouse_pos_before_zoom.real - mouse_pos_after_zoom.real;
+        self.context.shift_y += mouse_pos_before_zoom.imag - mouse_pos_after_zoom.imag;
         self.renderer.draw(&self.context).unwrap();
     }
 
@@ -98,11 +98,11 @@ impl GraphicWindow {
                     self.renderer.draw(&self.context).unwrap();
                 }
                 Keycode::RIGHT => {
-                    self.context.shift_x += (self.context.zoom * 0.2);
+                    self.context.shift_x += self.context.zoom * 0.2;
                     self.renderer.draw(&self.context).unwrap();
                 }
                 Keycode::LEFT => {
-                    self.context.shift_x -= (self.context.zoom * 0.2);
+                    self.context.shift_x -= self.context.zoom * 0.2;
                     self.renderer.draw(&self.context).unwrap();
                 }
                 _ => {}

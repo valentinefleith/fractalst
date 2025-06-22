@@ -1,5 +1,5 @@
 use crate::constants::{
-    DOT_SIZE_IN_PXS, HEIGHT, MAX_ITERATIONS, WIDTH, X_MAX, X_MIN, Y_MAX, Y_MIN,
+    DOT_SIZE_IN_PXS, HEIGHT, WIDTH, X_MAX, X_MIN, Y_MAX, Y_MIN,
 };
 use crate::context::{ComplexNb, Context, Point};
 use crate::fractal::mandelbrot::compute_mandelbrot;
@@ -62,7 +62,7 @@ impl Renderer {
             for j in 0..HEIGHT {
                 let iterations_count =
                     compute_mandelbrot(self.rescale_point(Point(i as i32, j as i32), context));
-                let mut current_px_color: Color = context.colors[iterations_count as usize];
+                let current_px_color: Color = context.colors[iterations_count as usize];
                 // if iterations_count != previous_count && previous_count != MAX_ITERATIONS + 1 {
                 //
                 //     // let first_color: Color = context.colors[iterations_count as usize];
