@@ -1,4 +1,6 @@
-use crate::constants::{DOT_SIZE_IN_PXS, HEIGHT, WIDTH, X_MAX, X_MIN, Y_MAX, Y_MIN};
+use crate::constants::{
+    DOT_SIZE_IN_PXS, HEIGHT, MAX_ITERATIONS, WIDTH, X_MAX, X_MIN, Y_MAX, Y_MIN,
+};
 use crate::context::{ComplexNb, Context, Point};
 use crate::fractal::mandelbrot::compute_mandelbrot;
 
@@ -45,28 +47,33 @@ impl Renderer {
     //     self.canvas.clear();
     // }
     //
-    fn rescale_point(&mut self, point: Point) -> ComplexNb {
+    pub fn rescale_point(&mut self, point: Point, context: &Context) -> ComplexNb {
         ComplexNb {
-            real: point.0 as f64 * (X_MAX - X_MIN) / WIDTH as f64 + X_MIN,
-            imag: point.1 as f64 * (Y_MAX - Y_MIN) / HEIGHT as f64 + Y_MIN,
+            real: (point.0 as f64 * (X_MAX - X_MIN) / WIDTH as f64 + X_MIN) * context.zoom
+                + context.shift_x,
+            imag: (point.1 as f64 * (Y_MAX - Y_MIN) / HEIGHT as f64 + Y_MIN) * context.zoom
+                + context.shift_y,
         }
     }
 
-    fn draw_mandelbrot(&mut self, _context: &Context) -> Result<(), String> {
-        for i in 0..HEIGHT {
-            for j in 0..WIDTH {
-                let current_px_color: Color =
-                    compute_mandelbrot(self.rescale_point(Point(i as i32, j as i32)));
+    fn draw_mandelbrot(&mut self, context: &Context) -> Result<(), String> {
+        // let mut previous_count = MAX_ITERATIONS + 1;
+        for i in 0..WIDTH {
+            for j in 0..HEIGHT {
+                let iterations_count =
+                    compute_mandelbrot(self.rescale_point(Point(i as i32, j as i32), context));
+                let mut current_px_color: Color = context.colors[iterations_count as usize];
+                // if iterations_count != previous_count && previous_count != MAX_ITERATIONS + 1 {
+                //
+                //     // let first_color: Color = context.colors[iterations_count as usize];
+                //     let second_color: Color = context.colors[((iterations_count + 1) % MAX_ITERATIONS) as usize];
+                //     current_px_color = interpolate(current_px_color, second_color, 0.5);
+                // }
+                // previous_count = iterations_count;
                 self.canvas.set_draw_color(current_px_color);
                 self.draw_dot(&Point(i as i32, j as i32))?;
             }
         }
         Ok(())
     }
-
-    // fn draw_food(&mut self, context: &Context) -> Result<(), String> {
-    //     self.canvas.set_draw_color(Color::RED);
-    //     self.draw_dot(&context.food)?;
-    //     Ok(())
-    // }
 }

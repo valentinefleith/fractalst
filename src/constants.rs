@@ -1,5 +1,5 @@
-pub const HEIGHT: u32 = 1000;
-pub const WIDTH: u32 = 800;
+pub const HEIGHT: u32 = 800;
+pub const WIDTH: u32 = 900;
 pub const DOT_SIZE_IN_PXS: u32 = 1;
 
 pub const X_MAX: f64 = 0.6;

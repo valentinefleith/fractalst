@@ -3,4 +3,6 @@ pub mod context;
 pub mod graphic_window;
 pub mod renderer;
 
+pub mod colors;
+
 pub mod fractal;
