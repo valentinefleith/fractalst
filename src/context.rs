@@ -1,5 +1,4 @@
 use sdl2::pixels::Color;
-use sdl2::pixels::Palette;
 
 pub enum Fractal {
     Mandelbrot,
@@ -7,6 +6,11 @@ pub enum Fractal {
 }
 
 pub struct Point(pub i32, pub i32);
+
+pub struct ComplexNb {
+    pub real: f64,
+    pub imag: f64,
+}
 
 pub struct Context {
     pub fractal_name: Fractal,

@@ -15,8 +15,8 @@ pub struct GraphicWindow {
 
 impl GraphicWindow {
     pub fn new(window_title: &str, height: u32, width: u32) -> Result<GraphicWindow, String> {
-        let sdl_context = sdl2::init().unwrap();
-        let video_subsystem = sdl_context.video().unwrap();
+        let sdl_context = sdl2::init()?;
+        let video_subsystem = sdl_context.video()?;
 
         let window = video_subsystem
             .window(window_title, height, width)
@@ -34,9 +34,9 @@ impl GraphicWindow {
     }
 
     pub fn run(&mut self) -> Result<(), String> {
+        self.renderer.draw(&self.context)?;
         let mut event_pump = self.sdl_context.event_pump()?;
         'running: loop {
-            self.renderer.draw(&self.context)?;
             for event in event_pump.poll_iter() {
                 match event {
                     Event::Quit { .. }
@@ -61,8 +61,9 @@ impl GraphicWindow {
                 Keycode::Space => {
                     self.context.fractal_name = match self.context.fractal_name {
                         Fractal::Mandelbrot => Fractal::Julia,
-                        Fractal::Julia => Fractal::Julia,
-                    }
+                        Fractal::Julia => Fractal::Mandelbrot,
+                    };
+                    self.renderer.draw(&self.context).unwrap();
                 }
                 _ => {}
             },
